@@ -1,0 +1,83 @@
+﻿@model MTSaglikAuthenticator.Entities.ViewModels.UserViewModel
+
+@{ ViewData["Title"] = "Edit"; }
+<br />
+<br />
+<form class="form-horizontal" asp-action="Edit">
+    @Html.HiddenFor(x => Model.Id)
+    @Html.HiddenFor(x => Model.CreatedDate)
+    @Html.HiddenFor(x => Model.CreatedBy)
+    @Html.HiddenFor(x => Model.Institution.Type)
+    @Html.HiddenFor(x => Model.Type)
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="FullName">Name-Surname: </label>
+        <div class="col-sm-4">
+            <input asp-for="FullName" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="InstitutionId">Institution: </label>
+        <div class="col-sm-4" id="institutionValue">
+            @Html.DropDownListFor(l => l.InstitutionId, new SelectList(ViewBag.Institutions.Data, "Id", "CompanyName"), new { @class = "form-control col-sm-12", @onchange = "callOnChange()" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="Type">Type: </label>
+        <div class="col-sm-4">
+            <input asp-for="Institution.Title.TitleName" id="TipAdı" readonly class="form-control" />
+            <input asp-for="Type" id="TipId" hidden class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="Phone">Phone: </label>
+        <div class="col-sm-4">
+            <input asp-for="Phone" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="Email">Email: </label>
+        <div class="col-sm-4">
+            <input asp-for="Email" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="CountryCode">Country Code: </label>
+        <div class="col-sm-4">
+            <input asp-for="CountryCode" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="Longtitude">Longtitude: </label>
+        <div class="col-sm-4">
+            <input asp-for="Longtitude" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="Lottitude">Lottitude: </label>
+        <div class="col-sm-4">
+            <input asp-for="Lottitude" class="form-control" />
+        </div>
+    </div>
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <input type="submit" value="Edit" class="btn btn-info col-xs-3" />
+        </div>
+
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    function callOnChange() {
+        var array = @Html.Raw(Json.Serialize(ViewBag.Institutions.Data));
+        var id = $('#institutionValue').find('option:selected').val();
+        var tip = array.find(item => item.id == id);
+        $("#TipAdı").val(tip.title.titleName)
+        $("#TipId").val(tip.type)
+
+        }
+</script>

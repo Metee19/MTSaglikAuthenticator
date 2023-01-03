@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MTSaglikAuthenticator.DataAccess\MTSaglikAuthenticator.DataAccess.csproj" />
+    <ProjectReference Include="..\MTSaglikAuthenticator.Entities\MTSaglikAuthenticator.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

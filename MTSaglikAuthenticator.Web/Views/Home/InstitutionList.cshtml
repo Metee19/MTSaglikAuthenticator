@@ -1,0 +1,95 @@
+﻿@model IEnumerable<MTSaglikAuthenticator.Entities.ViewModels.InstitutionViewModel>
+
+@{
+    ViewData["Title"] = "InstitutionList";
+}
+<br />
+<br />
+
+<div class="page-content">  
+    <div class="page-header">
+        <h2>InstitutionList</h2>
+    </div><!-- /.page-header -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="simple-table" class="table  table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Type</th>
+                                <th>Created Date</th>
+                                <th>States</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.Title.TitleName</td>
+                                    <td>@item.CreatedDate</td>
+                                    <td>
+                                        <div class="hidden-sm hidden-xs btn-group">
+                                            <a class="btn btn-xs btn-info" asp-controller="Home" asp-route-id="@item.Id" asp-action="InstitutionEdit">
+                                                <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                            </a>
+
+                                            @*  <button class="btn btn-xs btn-danger">
+                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                </button>*@
+                                            <a class="btn btn-xs btn-danger" onclick="removeItem(@item.CompanyName)" data-id="@item.Id">
+                                                <i class="ace-icon fa fa-trash bigger-120"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!-- /.span -->
+            </div><!-- /.row -->
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function removeItem(Company) {
+            console.log("11")
+            swal({
+                title: 'Silmek istediğinize emin misiniz?',
+                text: 'Silinen veri geri alınamaz',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/Home/InstitutionDelete/",
+                        data: { 'companyName': Company },
+                        success: function (data) {
+                            if (data.success) {
+                                toastr.success(data.message);
+
+                            } else {
+                                toastr.error(data.message);
+                            }
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

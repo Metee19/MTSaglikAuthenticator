@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTSaglikAuthenticator.DataAccess", "MTSaglikAuthenticator.DataAccess\MTSaglikAuthenticator.DataAccess.csproj", "{4BF18A70-626C-4581-B230-5ABE505DDE81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTSaglikAuthenticator.Entities", "MTSaglikAuthenticator.Entities\MTSaglikAuthenticator.Entities.csproj", "{FDC915E2-411F-4FCB-8921-A54986DA0CD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTSaglikAuthenticator.Business", "MTSaglikAuthenticator.Business\MTSaglikAuthenticator.Business.csproj", "{698FA32D-F859-4BE3-B925-AC853080F2CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTSaglikAuthenticator.Web", "MTSaglikAuthenticator.Web\MTSaglikAuthenticator.Web.csproj", "{08B54054-E1A4-415B-B4A1-BC0B70C4561F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTSaglikAuthenticator.Core", "MTSaglikAuthenticator.Core\MTSaglikAuthenticator.Core.csproj", "{5D0C0DF6-DC75-434A-ACDC-302702815228}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BF18A70-626C-4581-B230-5ABE505DDE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BF18A70-626C-4581-B230-5ABE505DDE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BF18A70-626C-4581-B230-5ABE505DDE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BF18A70-626C-4581-B230-5ABE505DDE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC915E2-411F-4FCB-8921-A54986DA0CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC915E2-411F-4FCB-8921-A54986DA0CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC915E2-411F-4FCB-8921-A54986DA0CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC915E2-411F-4FCB-8921-A54986DA0CD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{698FA32D-F859-4BE3-B925-AC853080F2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698FA32D-F859-4BE3-B925-AC853080F2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698FA32D-F859-4BE3-B925-AC853080F2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698FA32D-F859-4BE3-B925-AC853080F2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B54054-E1A4-415B-B4A1-BC0B70C4561F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B54054-E1A4-415B-B4A1-BC0B70C4561F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B54054-E1A4-415B-B4A1-BC0B70C4561F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B54054-E1A4-415B-B4A1-BC0B70C4561F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D0C0DF6-DC75-434A-ACDC-302702815228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D0C0DF6-DC75-434A-ACDC-302702815228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D0C0DF6-DC75-434A-ACDC-302702815228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D0C0DF6-DC75-434A-ACDC-302702815228}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEDF0B24-140F-4D24-B4CE-F506AE91A62D}
+	EndGlobalSection
+EndGlobal
