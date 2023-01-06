@@ -16,6 +16,7 @@ namespace MTSaglikAuthenticator.Entities.Helpers
             CreateMap<Institution, InstitutionViewModel>().ReverseMap();
             CreateMap<User, UserViewModel>().ReverseMap();
             CreateMap<Title, TitleViewModel>().ReverseMap();
+            CreateMap<File, FileViewModel>().ReverseMap();
         }
     }
 }

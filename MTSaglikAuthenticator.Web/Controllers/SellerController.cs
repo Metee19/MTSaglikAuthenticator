@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MTSaglikAuthenticator.Business.Abstract;
+using MTSaglikAuthenticator.Entities.Helpers;
 using MTSaglikAuthenticator.Entities.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
-
+using System.Web;
 namespace MTSaglikAuthenticator.Web.Controllers
 {
     [Authorize(Policy ="Seller")]
@@ -14,13 +18,15 @@ namespace MTSaglikAuthenticator.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUserSession _userSession;
+        private readonly IFileService _fileService;
         private readonly IInstitutionService _institutionService;
 
-        public SellerController(IUserService userService, IInstitutionService institutionService, IUserSession userSession)
+        public SellerController(IUserService userService, IInstitutionService institutionService, IUserSession userSession, IFileService fileService)
         {
             _userService = userService;
             _institutionService = institutionService;
             _userSession = userSession;
+            _fileService = fileService;
         }
 
         public IActionResult Index()
@@ -62,6 +68,26 @@ namespace MTSaglikAuthenticator.Web.Controllers
             ViewBag.File = _userService.GetCustomers();
             return View();
         }
+        [HttpPost]
+        public IActionResult UploadFile(FileViewModel model, IFormFile files)
+        {
+            var filePath = FileHashing.FileCreatePath(files.FileName);
+            model.FileHash =  FileHashing.SHA256CheckSum(filePath);
+            model.FileName = files.FileName;
+
+            var sellerId = _userSession.Id;
+            var data = _fileService.CreateFileForUser(model, sellerId);
+
+            if(data.IsSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+            
+            return View(model);
+        }
+
+       
+
 
     }
 }

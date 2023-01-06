@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MTSaglikAuthenticator.Core.Utilities;
+using MTSaglikAuthenticator.Entities.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace MTSaglikAuthenticator.Business.Abstract
 {
     public interface IFileService
     {
+        Result<FileViewModel> CreateFileForUser(FileViewModel model, string guidId);
     }
 }
