@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MTSaglikAuthenticator.Business.Abstract;
+using MTSaglikAuthenticator.Core.Cryptography;
 using MTSaglikAuthenticator.Entities.Helpers;
 using MTSaglikAuthenticator.Entities.ViewModels;
 using System;
@@ -71,7 +72,33 @@ namespace MTSaglikAuthenticator.Web.Controllers
         [HttpPost]
         public IActionResult UploadFile(FileViewModel model, IFormFile files)
         {
-            var filePath = FileHashing.FileCreatePath(files.FileName);
+
+
+            var filePath = AppDomain.CurrentDomain.BaseDirectory + files.FileName;
+
+            using (var stream = files.OpenReadStream())
+            using (var output = new FileStream(filePath, FileMode.Create))
+            {
+                // Dosya verilerini okuma
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    // Dosya verilerini başka bir dosya olarak yazma
+                    output.Write(buffer, 0, bytesRead);
+                }
+            }
+            var key = AesCrypto.CreateUpdateKey();
+            var iv = AesCrypto.CreateIv();
+
+            AesCrypto.EncryptFile(filePath, key, iv);
+            AesCrypto.DecryptFile(filePath, key, iv);
+
+            byte[] pdf = System.IO.File.ReadAllBytes(filePath);
+            byte[] encryptedSoftwarePacket = AesCrypto.Encrypt(pdf, key, iv);
+
+            byte[] b = AesCrypto.Decrypt(encryptedSoftwarePacket, key, iv);
+
             model.FileHash =  FileHashing.SHA256CheckSum(filePath);
             model.FileName = files.FileName;
 
