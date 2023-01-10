@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -51,10 +52,10 @@ namespace MTSaglikAuthenticator.Core.Cryptography
                         // Dosyadaki veriler okunur ve şifrelenir
                         inputFile.CopyTo(cryptoStream);
                     }
-                   
+
                 }
-                
-                
+
+
             }
             File.Delete(filePath);
 
@@ -84,6 +85,7 @@ namespace MTSaglikAuthenticator.Core.Cryptography
                 }
             }
         }
+
 
         public static byte[] Decrypt(byte[] data, byte[] key, byte[] iv)
         {

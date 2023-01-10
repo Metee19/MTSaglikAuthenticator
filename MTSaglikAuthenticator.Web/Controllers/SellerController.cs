@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 namespace MTSaglikAuthenticator.Web.Controllers
@@ -76,6 +77,7 @@ namespace MTSaglikAuthenticator.Web.Controllers
 
             var filePath = AppDomain.CurrentDomain.BaseDirectory + files.FileName;
 
+
             using (var stream = files.OpenReadStream())
             using (var output = new FileStream(filePath, FileMode.Create))
             {
@@ -94,27 +96,112 @@ namespace MTSaglikAuthenticator.Web.Controllers
             AesCrypto.EncryptFile(filePath, key, iv);
             AesCrypto.DecryptFile(filePath, key, iv);
 
+
+            var hashData = FileHashing.SHA256CheckSum(filePath);
+            byte[] encryptData = AesCrypto.Encrypt(Encoding.UTF8.GetBytes(hashData), key, iv);
+            byte[] decryptData = AesCrypto.Decrypt(encryptData, key, iv);
+            var decryptHash = Encoding.UTF8.GetString(decryptData);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            byte[] calculatedHash = new SHA256Managed().ComputeHash(fileBytes);
+
+            string calculatedHashString = Convert.ToBase64String(calculatedHash);
+
+            if (calculatedHashString == decryptHash)
+            {
+               
+            }
+            else
+            {
+                
+            }
+
+
             byte[] pdf = System.IO.File.ReadAllBytes(filePath);
             byte[] encryptedSoftwarePacket = AesCrypto.Encrypt(pdf, key, iv);
-
             byte[] b = AesCrypto.Decrypt(encryptedSoftwarePacket, key, iv);
 
-            model.FileHash =  FileHashing.SHA256CheckSum(filePath);
-            model.FileName = files.FileName;
 
+
+            model.FileHash = FileHashing.SHA256CheckSum(filePath);
+            model.FileName = files.FileName;
             var sellerId = _userSession.Id;
             var data = _fileService.CreateFileForUser(model, sellerId);
 
-            if(data.IsSuccess)
+            if (data.IsSuccess)
             {
                 return RedirectToAction("Index");
             }
-            
+
             return View(model);
         }
 
-       
-
-
     }
 }
+
+#region eski kod
+//[HttpPost]
+//public IActionResult UploadFile(FileViewModel model, IFormFile files)
+//{
+
+
+//    var filePath = AppDomain.CurrentDomain.BaseDirectory + files.FileName;
+
+
+//    using (var stream = files.OpenReadStream())
+//    using (var output = new FileStream(filePath, FileMode.Create))
+//    {
+//        // Dosya verilerini okuma
+//        byte[] buffer = new byte[8192];
+//        int bytesRead;
+//        while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+//        {
+//            // Dosya verilerini başka bir dosya olarak yazma
+//            output.Write(buffer, 0, bytesRead);
+//        }
+//    }
+//    var key = AesCrypto.CreateUpdateKey();
+//    var iv = AesCrypto.CreateIv();
+
+//    AesCrypto.EncryptFile(filePath, key, iv);
+//    AesCrypto.DecryptFile(filePath, key, iv);
+
+
+//    var hashData = FileHashing.SHA256CheckSum(filePath);
+//    byte[] encryptData = AesCrypto.Encrypt(Encoding.UTF8.GetBytes(hashData), key, iv);
+//    byte[] decryptData = AesCrypto.Decrypt(encryptData, key, iv);
+//    var decryptHash = Encoding.UTF8.GetString(decryptData);
+//    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+//    byte[] calculatedHash = new SHA256Managed().ComputeHash(fileBytes);
+
+//    string calculatedHashString = Convert.ToBase64String(calculatedHash);
+
+//    if (calculatedHashString == decryptHash)
+//    {
+
+//    }
+//    else
+//    {
+
+//    }
+
+
+//    byte[] pdf = System.IO.File.ReadAllBytes(filePath);
+//    byte[] encryptedSoftwarePacket = AesCrypto.Encrypt(pdf, key, iv);
+//    byte[] b = AesCrypto.Decrypt(encryptedSoftwarePacket, key, iv);
+
+
+
+//    model.FileHash = FileHashing.SHA256CheckSum(filePath);
+//    model.FileName = files.FileName;
+//    var sellerId = _userSession.Id;
+//    var data = _fileService.CreateFileForUser(model, sellerId);
+
+//    if (data.IsSuccess)
+//    {
+//        return RedirectToAction("Index");
+//    }
+
+//    return View(model);
+//}
+
+#endregion
